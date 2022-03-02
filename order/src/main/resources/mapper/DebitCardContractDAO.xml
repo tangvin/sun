@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.dao.DebitCardContractDAO">
+    <resultMap id="BaseResultMap" type="com.example.entity.DebitCardContractBO">
+<!--        <id column="id" property="id" jdbcType="INTEGER"/>-->
+        <result column="lgper_code" property="lgperCode" jdbcType="VARCHAR"/>
+        <result column="dbcrd_ar_refno" property="dbcrdArRefno" jdbcType="VARCHAR"/>
+        <result column="alsal_pd_redno" property="alsalPdRedno" jdbcType="VARCHAR"/>
+        <result column="cusno" property="cusno" jdbcType="VARCHAR"/>
+        <result column="cscd_crdhl_refno" property="cscdCrdhlRefno" jdbcType="VARCHAR"/>
+        <result column="issue_date" property="issueDate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        lgper_code,dbcrd_ar_refno,alsal_pd_redno,cusno,cscd_crdhl_refno,issue_date
+    </sql>
+
+    <!--分页查询所有页面数据-->
+    <select id="selectByMutipleContractNo" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from t_debit_card_contract
+        <where>
+            <if test="list != null AND list.size > 0">
+                dbcrd_ar_refno in
+                <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByContractNo" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from t_debit_card_contract
+        where cscd_crdhl_refno =#{contractNo}
+    </select>
+
+</mapper>

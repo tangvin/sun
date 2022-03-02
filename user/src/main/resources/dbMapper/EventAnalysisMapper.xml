@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.user.dao.EventAnalysisMapper">
+    <resultMap id="BaseResultMap" type="com.example.user.bean.EventAnalysis">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="page_sn" property="pageSn" jdbcType="VARCHAR"/>
+        <result column="page_name" property="pageName" jdbcType="VARCHAR"/>
+        <result column="area_sn" property="areaSn" jdbcType="VARCHAR"/>
+        <result column="area_name" property="areaName" jdbcType="VARCHAR"/>
+        <result column="button_sn" property="buttonSn" jdbcType="VARCHAR"/>
+        <result column="button_name" property="buttonName" jdbcType="VARCHAR"/>
+        <result column="button_seq" property="buttonSeq" jdbcType="VARCHAR"/>
+        <result column="page_no" property="pageNo" jdbcType="VARCHAR"/>
+        <result column="area_no" property="areaNo" jdbcType="VARCHAR"/>
+        <result column="button_no" property="buttonNo" jdbcType="VARCHAR"/>
+        <result column="publish_time" property="publishTime" jdbcType="VARCHAR"/>
+        <result column="serial_no" property="serialNo" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,page_sn, page_name, area_sn, area_name,button_sn,button_name,button_seq,page_no,area_no,button_no,publish_time,serial_no
+    </sql>
+
+    <select id="findPageList" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from t_event_import
+        <where>
+            <if test="pageName != null">
+                and page_name like concat ('%',#{pageName},'%')
+            </if>
+            <if test="areaName != null">
+                and area_name like concat ('%',#{areaName},'%')
+            </if>
+            <if test="buttonName != null">
+                and button_name like concat ('%',#{buttonName},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--查询所有页面数据-->
+    <select id="selectAllInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_event_import ;
+    </select>
+
+
+    <!--查询指定页面数据-->
+    <select id="selectSpecificPageList" resultType="java.util.Map" parameterType="java.util.Map">
+        select
+               <choose>
+                   <when test="level == 1">
+                       concat(page_name, "/", area_name, "/", button_name) as newColumn
+                   </when>
+                   <when test="level == 2">
+                       concat(area_name, "/", button_name) as newColumn
+                   </when>
+                   <when test="level == 3">
+                       concat(button_name) as newColumn
+                   </when>
+               </choose>
+        from t_event_import
+        where page_name = #{nameLike}
+    </select>
+
+    <!--查询页面分组信息-->
+    <select id="selectPageInfo" resultMap="BaseResultMap">
+        select page_sn, page_name
+        from t_event_import
+        GROUP BY page_sn, page_name;
+    </select>
+
+    <select id="selectAreaInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select area_sn, area_name
+        from t_event_import
+        where page_sn = #{pageSn};
+    </select>
+
+    <select id="selectButtonInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select page_sn, page_name, area_sn, area_name, button_sn, button_name
+        from t_event_import
+        where page_sn = #{pageSn}
+          and area_sn = #{areaSn}
+    </select>
+
+    <insert id="insertInfo" parameterType="com.example.user.bean.EventAnalysis">
+        INSERT INTO t_event_import(page_sn, page_name, area_sn, area_name, button_sn, button_name, button_seq)
+        VALUES ('017', '苹果测试首页', '001', '广告位17', '003', '轮播位17', '11');
+    </insert>
+
+    <!--    <insert id="updateInfo" parameterType="com.example.user.bean.EventAnalysis">-->
+    <!--        update t_event_import set (page_sn, page_name, area_sn, area_name, button_sn, button_name, button_seq)-->
+    <!--        VALUES ('017', '苹果测试首页', '001', '广告位17', '003', '轮播位17', '11');-->
+    <!--    </insert>-->
+
+</mapper>

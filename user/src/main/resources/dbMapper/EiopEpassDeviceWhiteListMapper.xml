@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.user.dao.EiopEpassDeviceWhiteListMapper">
+    <resultMap id="BaseResultMap" type="com.example.user.bean.EiopEpassDeviceWhiteList">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="teller_no" property="tellerNo" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="VARCHAR"/>
+        <result column="approveteller_no" property="approveTellerNo" jdbcType="VARCHAR"/>
+        <result column="file_oaas_key" property="fileOaasKey" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="last_update_time" property="lastUpdateTime" jdbcType="DATE"/>
+        <result column="file_type" property="fileType" jdbcType="VARCHAR"/>
+        <result column="bak" property="bak" jdbcType="VARCHAR"/>
+        <result column="file_content_number" property="fileContentNumber" jdbcType="VARCHAR"/>
+        <result column="file_content_channel" property="fileContentChannel" jdbcType="VARCHAR"/>
+        <result column="file_content_date" property="fileContentDate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, status, teller_no, approveteller_no, file_oaas_key, create_time, last_update_time, file_type, bak
+    </sql>
+
+
+
+    <!--查询所有页面数据-->
+    <select id="selectEpassDeviceWhiteList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from eiop_omg_epass_device
+        where status = #{status}
+        and last_update_time >= #{batchDateStart}
+        and last_update_time &lt;= #{batchDateEnd}
+        and id > #{autoId}
+        limit #{pageSize}
+    </select>
+
+
+
+</mapper>

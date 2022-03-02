@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.dao.DebitCardDAO">
+    <resultMap id="BaseResultMap" type="com.example.entity.DebitCardBO">
+<!--        <id column="id" property="id" jdbcType="INTEGER"/>-->
+        <result column="dbcrd_crdno" property="dbcrdCrdno" jdbcType="VARCHAR"/>
+        <result column="lgper_code" property="lgperCode" jdbcType="VARCHAR"/>
+        <result column="cusno" property="cusno" jdbcType="VARCHAR"/>
+        <result column="dbcrd_ar_refno" property="dbcrdArRefno" jdbcType="VARCHAR"/>
+        <result column="card_life_cycle" property="cardLifeCycle" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        dbcrd_crdno,lgper_code,cusno,dbcrd_ar_refno,card_life_cycle
+    </sql>
+
+    <!--分页查询所有页面数据-->
+    <select id="selectDebitCardByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_debit_card
+        where lgper_code = #{legalPersonCode}
+        and dbcrd_crdno = #{cardNo}
+    </select>
+
+
+    <select id="selectDebitCardByCusNo" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_debit_card
+        where cusno = #{cusNo}
+    </select>
+
+    <select id="selectDebitCardByMutipleContractId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_debit_card
+        where cusno = #{cusNo}
+    </select>
+
+    <select id="selectByThread" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_debit_card
+        where dbcrd_ar_refno in {cusNo}
+        limit #{index},#{num}
+    </select>
+
+    <select id="selectListByThread" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from t_debit_card
+        where
+        dbcrd_ar_refno in
+                <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+    </select>
+
+</mapper>

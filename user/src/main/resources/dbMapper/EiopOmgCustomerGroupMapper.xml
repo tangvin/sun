@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.user.dao.EiopOmgCustomerGroupMapper">
+    <resultMap id="BaseResultMap" type="com.example.user.bean.EiopOmgCustomerGroup">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="cg_number" property="cgNumber" jdbcType="VARCHAR"/>
+        <result column="cg_name" property="cgName" jdbcType="VARCHAR"/>
+        <result column="cg_status" property="cgStatus" jdbcType="VARCHAR"/>
+        <result column="cg_file_type" property="cgFileType" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="VARCHAR"/>
+        <result column="cg_create_way" property="cgCreateWay" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="servicing_time" property="servicingTime" jdbcType="DATE"/>
+        <result column="cg_cust_flag" property="cgCustFlag" jdbcType="VARCHAR"/>
+        <result column="cg_invalid_date" property="cgInvalidDate" jdbcType="VARCHAR"/>
+        <result column="file_id" property="fileId" jdbcType="VARCHAR"/>
+        <result column="save_content" property="saveContent" jdbcType="VARCHAR"/>
+        <result column="bak6" property="bak6" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,cg_number, cg_name, cg_status, cg_file_type,version,cg_create_way,user_id,
+        create_time,servicing_time,cg_cust_flag,cg_invalid_date,file_id,save_content,bak6
+    </sql>
+
+
+
+    <!--查询所有页面数据-->
+    <select id="selectCustGroupInfo" resultType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from eiop_omg_customer_group
+        where cg_status = #{cgStatus}
+        and cg_create_way = #{cgCreateWay}
+        and save_content = #{saveContent}
+    </select>
+
+    <!--分页查询所有页面数据-->
+    <select id="selectByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from eiop_omg_customer_group
+        where id > #{autoId}
+        and  servicing_time >= #{batchDateStart}
+        and  servicing_time &lt;= #{batchDateEnd}
+        order by id
+        limit #{pageSize}
+    </select>
+
+
+    <update id="updateOptimismLock">
+        update eiop_omg_customer_group
+        set cg_status = #{cgStatus} ,
+            version = #{version}
+        where id = #{id}
+    </update>
+
+    <update id="updateCustomerCount" parameterType="java.util.Map">
+        update eiop_omg_customer_group
+        set  bak6 = #{bak6}
+        where cg_number = #{cgNumber}
+    </update>
+
+    <update id="updateStatusValidateFail">
+        update eiop_omg_customer_group
+        set  cg_status = 5
+        where id = #{id}
+    </update>
+
+    <update id="saveCustomerAmount" parameterType="java.util.Map">
+        update eiop_omg_customer_group
+        set  bak6 = #{custCount}
+        where id = #{id}
+    </update>
+
+</mapper>

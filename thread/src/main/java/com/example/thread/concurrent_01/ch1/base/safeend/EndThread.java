@@ -1,0 +1,32 @@
+package com.example.thread.concurrent_01.ch1.base.safeend;
+
+/*安全中断线程*/
+public class EndThread {
+    private static class UseThread extends Thread {
+
+        public UseThread(String name) {
+            super(name);
+        }
+
+        @Override
+        public void run() {
+            super.run();
+            String threadName = Thread.currentThread().getName();
+            System.out.println(threadName + " interrrupt flag =" + isInterrupted());
+            while (!isInterrupted()) {
+                //while(!Thread.interrupted()){
+                //while(true){
+                System.out.println(threadName + " is running");
+                System.out.println(threadName + "inner interrrupt flag =" + isInterrupted());
+            }
+            System.out.println(threadName + " interrrupt flag =" + isInterrupted());
+        }
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        UseThread endThread = new UseThread("endThread");
+        endThread.start();
+        Thread.sleep(20);
+        endThread.interrupt();
+    }
+}

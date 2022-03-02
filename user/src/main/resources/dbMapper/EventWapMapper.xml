@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.user.dao.EventWapMapper">
+    <resultMap id="BaseResultMap" type="com.example.user.bean.EbankEvent">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="page_no" property="pageNo" jdbcType="VARCHAR"/>
+        <result column="page_name" property="pageName" jdbcType="VARCHAR"/>
+        <result column="event_name" property="eventName" jdbcType="VARCHAR"/>
+        <result column="event_id" property="eventId" jdbcType="VARCHAR"/>
+        <result column="event_group" property="eventGroup" jdbcType="VARCHAR"/>
+        <result column="event_no" property="eventNo" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,page_no, page_name, event_name, event_id,event_group,event_no,create_time
+    </sql>
+
+    <select id="selectEvent" resultType="com.example.user.bean.EbankEvent" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from t_event_wap
+       where event_id = #{eventId}
+    </select>
+
+    <insert id="insertEvent" parameterType="com.example.user.bean.EbankEvent">
+        INSERT INTO t_event_wap(page_no, page_name, event_name, event_id,event_group,event_no,create_time)
+        VALUES (#{pageNo},#{pageName},#{eventName},#{eventId},#{eventGroup},#{eventNo},#{createTime});
+    </insert>
+
+    <update id="updateEvent" parameterType="com.example.user.bean.EbankEvent">
+        update t_event_wap set page_no = #{pageNo},page_name =#{pageName} ,event_name =#{eventName}
+        where event_id = #{eventId}
+    </update>
+
+
+
+
+
+    <select id="selectPage" resultType="java.util.Map" parameterType="java.util.Map">
+        select * from t_page_wap where page_no = #{pageNo}
+    </select>
+
+    <insert id="insertPage" parameterType="com.example.user.bean.EbankEvent">
+        INSERT INTO t_page_wap(page_no, page_name)
+        VALUES (#{pageNo}, #{pageName});
+    </insert>
+    <update id="updatePage" parameterType="com.example.user.bean.EbankEvent">
+        update t_event_wap set page_name =#{pageName}
+        where page_no = #{pageNo}
+    </update>
+
+</mapper>

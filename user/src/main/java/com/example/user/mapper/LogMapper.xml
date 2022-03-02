@@ -1,0 +1,88 @@
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >-->
+<!--<mapper namespace="com.example.user.dao.LogMapper" >-->
+<!--  <resultMap id="BaseResultMap" type="com.example.user.bean.Log" >-->
+<!--    <id column="log_id" property="logId" jdbcType="INTEGER" />-->
+<!--    <result column="log_name" property="logName" jdbcType="VARCHAR" />-->
+<!--    <result column="log_type" property="logType" jdbcType="VARCHAR" />-->
+<!--    <result column="log_uri" property="logUri" jdbcType="VARCHAR" />-->
+<!--  </resultMap>-->
+<!--  <sql id="Base_Column_List" >-->
+<!--    log_id, log_name, log_type, log_uri-->
+<!--  </sql>-->
+<!--  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >-->
+<!--    select -->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from t_log-->
+<!--    where log_id = #{logId,jdbcType=INTEGER}-->
+<!--  </select>-->
+
+<!--  <select id="selectAll" resultType="java.util.Map"  >-->
+<!--    select-->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from t_log-->
+<!--  </select>-->
+<!--  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >-->
+<!--    delete from t_log-->
+<!--    where log_id = #{logId,jdbcType=INTEGER}-->
+<!--  </delete>-->
+<!--  <insert id="insert" parameterType="com.example.user.bean.Log" >-->
+<!--    insert into t_log (log_id, log_name, log_type, -->
+<!--      log_uri)-->
+<!--    values (#{logId,jdbcType=INTEGER}, #{logName,jdbcType=VARCHAR}, #{logType,jdbcType=VARCHAR}, -->
+<!--      #{logUri,jdbcType=VARCHAR})-->
+<!--  </insert>-->
+<!--  <insert id="insertSelective" parameterType="com.example.user.bean.Log" >-->
+<!--    insert into t_log-->
+<!--    <trim prefix="(" suffix=")" suffixOverrides="," >-->
+<!--      <if test="logId != null" >-->
+<!--        log_id,-->
+<!--      </if>-->
+<!--      <if test="logName != null" >-->
+<!--        log_name,-->
+<!--      </if>-->
+<!--      <if test="logType != null" >-->
+<!--        log_type,-->
+<!--      </if>-->
+<!--      <if test="logUri != null" >-->
+<!--        log_uri,-->
+<!--      </if>-->
+<!--    </trim>-->
+<!--    <trim prefix="values (" suffix=")" suffixOverrides="," >-->
+<!--      <if test="logId != null" >-->
+<!--        #{logId,jdbcType=INTEGER},-->
+<!--      </if>-->
+<!--      <if test="logName != null" >-->
+<!--        #{logName,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="logType != null" >-->
+<!--        #{logType,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="logUri != null" >-->
+<!--        #{logUri,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--    </trim>-->
+<!--  </insert>-->
+<!--  <update id="updateByPrimaryKeySelective" parameterType="com.example.user.bean.Log" >-->
+<!--    update t_log-->
+<!--    <set >-->
+<!--      <if test="logName != null" >-->
+<!--        log_name = #{logName,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="logType != null" >-->
+<!--        log_type = #{logType,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--      <if test="logUri != null" >-->
+<!--        log_uri = #{logUri,jdbcType=VARCHAR},-->
+<!--      </if>-->
+<!--    </set>-->
+<!--    where log_id = #{logId,jdbcType=INTEGER}-->
+<!--  </update>-->
+<!--  <update id="updateByPrimaryKey" parameterType="com.example.user.bean.Log" >-->
+<!--    update t_log-->
+<!--    set log_name = #{logName,jdbcType=VARCHAR},-->
+<!--      log_type = #{logType,jdbcType=VARCHAR},-->
+<!--      log_uri = #{logUri,jdbcType=VARCHAR}-->
+<!--    where log_id = #{logId,jdbcType=INTEGER}-->
+<!--  </update>-->
+<!--</mapper>-->

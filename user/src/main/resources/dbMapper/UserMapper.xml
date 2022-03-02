@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.user.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.example.user.bean.User">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="real_name" property="realName" jdbcType="VARCHAR"/>
+        <result column="gender" property="gender" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="bak" property="bak" jdbcType="VARCHAR"/>
+        <result column="position_id" property="positionId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_name, real_name, gender,phone,email,bak,position_id
+    </sql>
+
+    <!--分页查询所有页面数据-->
+    <select id="selectByPage" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where id > #{autoId}
+        order by id
+        limit #{pageSize}
+    </select>
+
+
+    <select id="selectByUserId" resultType="com.example.user.bean.User">
+        SELECT  <include refid="Base_Column_List"/> FROM user_info WHERE ID = #{id}
+    </select>
+
+
+
+    <insert id="insertUser" parameterType="java.util.Map">
+        INSERT INTO user_info (user_name,real_name, gender, phone,email,bak,position_id)
+        VALUES     (#{userName},#{realName}, #{gender}, #{phone}, #{email}, #{bak}, #{positionId})
+    </insert>
+
+    <insert id="insertUserEntity" parameterType="com.example.user.bean.User">
+        INSERT INTO user_info (user_name,real_name, gender, phone,email,bak,position_id)
+        VALUES     (#{userName},#{realName}, #{gender}, #{phone}, #{email}, #{bak}, #{positionId})
+    </insert>
+
+    <insert id="insertBatch" parameterType="java.util.List">
+        INSERT INTO user_info (user_name, real_name, gender, phone, email, bak, position_id)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+               (#{item.userName,jdbcType = VARCHAR},
+                #{item.realName,jdbcType = VARCHAR},
+                #{item.gender,jdbcType = VARCHAR},
+                #{item.phone,jdbcType = VARCHAR},
+                #{item.email,jdbcType = VARCHAR},
+                #{item.bak,jdbcType = VARCHAR},
+                #{item.positionId,jdbcType = VARCHAR}
+                )
+        </foreach>
+    </insert>
+
+
+</mapper>

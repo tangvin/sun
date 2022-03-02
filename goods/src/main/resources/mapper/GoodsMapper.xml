@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.goods.dao.GoodsMapper">
+
+    <select id="findById" resultType="com.example.goods.bean.Goods" parameterType="integer">
+        SELECT * FROM T_GOODS WHERE ID = #{id}
+    </select>
+
+    <select id="selectGoodsById" resultType="com.example.goods.bean.Goods" parameterType="integer">
+        SELECT * FROM T_GOODS WHERE ID = #{id}
+    </select>
+
+    <select id="selectGoodsInfo" resultType="java.util.Map" parameterType="Integer">
+        select * from t_goods t1 LEFT JOIN t_user t2 on t1.id = t2.goodsId
+        where t1.id = #{id}
+    </select>
+
+    <select id="selectGoodsInfoAll" resultType="java.util.Map">
+        select * from t_goods t1
+        LEFT JOIN
+        t_user t2 on t1.id = t2.goodsId
+        left join
+        t_order t3 on t1.orderId = t3.orderId
+
+    </select>
+
+</mapper>
