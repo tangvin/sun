@@ -32,7 +32,6 @@
         <module>activemq</module>
         <module>rabbitmq</module>
         <module>thread</module>
-        <module>dubbo-base</module>
         <module>kafka</module>
 <!--        <module>consul-consumer</module>-->
 <!--        <module>consul-provider</module>-->
