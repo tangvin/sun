@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.dao.DebitCardContractSubAccountDAO">
+    <resultMap id="BaseResultMap" type="com.example.entity.DebitCardContractSubAccountBO">
+        <!--        <id column="id" property="id" jdbcType="INTEGER"/>-->
+        <result column="dbcrd_ar_refno" property="dbcrdArRefno" jdbcType="VARCHAR"/>
+        <result column="deposit_num" property="depositNum" jdbcType="VARCHAR"/>
+        <result column="tongzi" property="tongZi" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        dbcrd_ar_refno,deposit_num,tongzi
+    </sql>
+
+
+    <select id="selectList" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_debit_card_contract_sub_account
+        where deposit_num = #{depositNum}
+    </select>
+
+    <select id="selectListByPage" resultType="com.example.entity.DebitCardContractSubAccountBO">
+        select <include refid="Base_Column_List"/>
+        from t_debit_card_contract_sub_account
+        where deposit_num = #{depositNum}
+        limit  ${(pageNo-1)*pageSize},${pageSize};
+    </select>
+
+
+</mapper>

@@ -20,14 +20,11 @@
         select
         <include refid="Base_Column_List"/>
         from t_debit_card_contract
-        <where>
-            <if test="list != null AND list.size > 0">
-                dbcrd_ar_refno in
+        where
+            dbcrd_ar_refno in
                 <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
                     #{item}
                 </foreach>
-            </if>
-        </where>
     </select>
 
     <select id="selectByContractNo" resultMap="BaseResultMap" parameterType="java.util.List">
@@ -36,5 +33,6 @@
         from t_debit_card_contract
         where cscd_crdhl_refno =#{contractNo}
     </select>
+
 
 </mapper>

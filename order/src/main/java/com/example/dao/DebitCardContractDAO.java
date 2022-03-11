@@ -20,7 +20,7 @@ public interface DebitCardContractDAO {
      * @param list
      * @return
      */
-    List<DebitCardContractBO> selectByMutipleContractNo(List list);
+    List<DebitCardContractBO> selectByMutipleContractNo(List<String> list);
 
     /**
      * 根据用户id查询

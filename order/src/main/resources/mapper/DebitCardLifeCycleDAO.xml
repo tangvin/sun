@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.dao.DebitCardLifeCycleDAO">
+    <resultMap id="BaseResultMap" type="com.example.entity.DebitCardLifeCycleBO">
+<!--        <id column="id" property="id" jdbcType="INTEGER"/>-->
+        <result column="dbcrd_crdno" property="dbcrdCrdno" jdbcType="VARCHAR"/>
+        <result column="cycle_state" property="cycleState" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        dbcrd_crdno,cycle_state
+    </sql>
+
+
+    <select id="selectList" resultMap="BaseResultMap" parameterType="java.util.List">
+        select <include refid="Base_Column_List"/>
+        from t_debit_card_life_cycle
+        where
+        dbcrd_crdno in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and cycle_state != '005006'
+    </select>
+
+
+</mapper>
