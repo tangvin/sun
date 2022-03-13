@@ -21,6 +21,10 @@ public class QueryPersonalAccountRelDBCardRequestVO {
 
     //存款合约编号
     private String depositNum;
+    //每页条数
+    private String pageSize;
+    //当前页数
+    private String pageNo;
 
 
     private List<DebitCardBO> debitCardBOList;

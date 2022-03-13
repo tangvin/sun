@@ -5,10 +5,11 @@
 <!--        <id column="id" property="id" jdbcType="INTEGER"/>-->
         <result column="dbcrd_crdno" property="dbcrdCrdno" jdbcType="VARCHAR"/>
         <result column="cycle_state" property="cycleState" jdbcType="VARCHAR"/>
+        <result column="receive_date" property="receiveDate" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        dbcrd_crdno,cycle_state
+        dbcrd_crdno,cycle_state,receive_date
     </sql>
 
 

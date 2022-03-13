@@ -40,6 +40,7 @@
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
+        and card_life_cycle != '005006'
     </select>
 
     <select id="selectByThread" resultMap="BaseResultMap" parameterType="java.lang.String">

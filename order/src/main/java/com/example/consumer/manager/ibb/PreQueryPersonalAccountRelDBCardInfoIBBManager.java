@@ -47,13 +47,13 @@ public class PreQueryPersonalAccountRelDBCardInfoIBBManager {
             if (!CollectionUtils.isEmpty(list)) {
                 //查询卡片信息
                 List<DebitCardBO> debitCardBOList = debitCardDAO.selectDebitCardByMutipleContractId(list);
-                if (debitCardBOList == null) {
+                if (CollectionUtils.isEmpty(debitCardBOList)) {
                     throw new Exception("卡片信息为空");
                 }
 
                 //查询合约信息
                 List<DebitCardContractBO> debitCardContractBOList = debitCardContractDAO.selectByMutipleContractNo(list);
-                if (debitCardContractBOList == null) {
+                if (CollectionUtils.isEmpty(debitCardContractBOList)) {
                     throw new Exception("合约信息为空");
                 }
 

@@ -11,5 +11,7 @@ public class DebitCardContractSubAccountBO {
     //存款合约编号
     private String depositNum;
     //一户通字
-    private String tongZi;
+    private String oneHousehold;
+    //定活期标志
+    private String currentIdentification;
 }

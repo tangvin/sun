@@ -11,4 +11,6 @@ public class DebitCardLifeCycleBO {
     private String dbcrdCrdno;
     //卡片生命周期
     private String cycleState;
+    //领卡日期
+    private String receiveDate;
 }

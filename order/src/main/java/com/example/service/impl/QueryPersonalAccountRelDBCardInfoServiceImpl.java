@@ -28,7 +28,8 @@ public class QueryPersonalAccountRelDBCardInfoServiceImpl implements QueryPerson
         preIBBManager.preQuery(requestVO);
 
         //2-数据组装
-        QueryPersonalAccountRelCardResponseVO responseVO = queryPersonalAccountRelDBCardInfoIBBManager.queryPersonalAccountRelDBCardInfo(requestVO);
+        QueryPersonalAccountRelCardResponseVO responseVO =
+                queryPersonalAccountRelDBCardInfoIBBManager.queryPersonalAccountRelDBCardInfo(requestVO);
 
         return responseVO;
     }

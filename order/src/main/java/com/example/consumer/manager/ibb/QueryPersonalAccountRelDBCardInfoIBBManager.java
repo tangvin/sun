@@ -11,6 +11,7 @@ import com.example.entity.DebitCardLifeCycleBO;
 import com.example.request.requestvo.QueryPersonalAccountRelDBCardRequestVO;
 import com.example.response.QueryPersonalAccountRelCardResponseVO;
 import com.example.vo.PersonalAccountRelDebitCardVO;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
  * 客户名下的卡片信息
  * 根据客户号 查询卡片信息
  * 客户号 = 卡片信息中的 客户号
- *  获取合约编号
+ * 获取合约编号
  */
 
 @Component
@@ -40,10 +41,11 @@ public class QueryPersonalAccountRelDBCardInfoIBBManager {
 
     /**
      * 客户号 =  再 查询合约表表
-     * @param 
+     *
+     * @param
      * @return
      */
-    public QueryPersonalAccountRelCardResponseVO queryPersonalAccountRelDBCardInfo(QueryPersonalAccountRelDBCardRequestVO requestVO){
+    public QueryPersonalAccountRelCardResponseVO queryPersonalAccountRelDBCardInfo(QueryPersonalAccountRelDBCardRequestVO requestVO) {
 
         List<DebitCardBO> debitCardBOList = requestVO.getDebitCardBOList();
         List<DebitCardContractBO> debitCardContractBOList = requestVO.getDebitCardContractBOList();
@@ -52,41 +54,39 @@ public class QueryPersonalAccountRelDBCardInfoIBBManager {
 
         //匹配数据分页
         List<PersonalAccountRelDebitCardVO> mapList = new ArrayList<>(0);
-        if(!CollectionUtils.isEmpty(subAccountBOList)){
-         mapList = queryPersonalAccountRelDBCardInfoKBBManager.queryPersonalAccountRelDBCardInfo(debitCardBOList, debitCardContractBOList,subAccountBOList,debitCardLifeCycleBOList);
+        if (!CollectionUtils.isEmpty(debitCardBOList)) {
+            mapList = queryPersonalAccountRelDBCardInfoKBBManager.queryPersonalAccountRelDBCardInfo(debitCardBOList, debitCardContractBOList, subAccountBOList, debitCardLifeCycleBOList);
         }
         //组装返回数据
-        QueryPersonalAccountRelCardResponseVO responseVO = new QueryPersonalAccountRelCardResponseVO();
-        responseVO.setList(mapList);
-        return responseVO;
+        return returnResponse(mapList, requestVO);
     }
 
 
     /**
-     *
      * @param debitCardBOList
      * @param validFlag
      * @return
      */
-    private List<DebitCardBO> getDebitCardBOList(List<DebitCardBO> debitCardBOList,String validFlag){
+    private List<DebitCardBO> getDebitCardBOList(List<DebitCardBO> debitCardBOList, String validFlag) {
         //有效
-        if("".equals(validFlag)){
-            debitCardBOList.stream().filter(u->!DebitCardConstant.DEBIT_CARD_LIFECYCLE_00506.getCode().equals(u.getCardLifeCycle())).collect(Collectors.toList());
+        if ("".equals(validFlag)) {
+            debitCardBOList.stream().filter(u -> !DebitCardConstant.DEBIT_CARD_LIFECYCLE_00506.getCode().equals(u.getCardLifeCycle())).collect(Collectors.toList());
         }
         //无效
-        if("0".equals(validFlag)){
-            debitCardBOList.stream().filter(u->DebitCardConstant.DEBIT_CARD_LIFECYCLE_00506.getCode().equals(u.getCardLifeCycle())).collect(Collectors.toList());
+        if ("0".equals(validFlag)) {
+            debitCardBOList.stream().filter(u -> DebitCardConstant.DEBIT_CARD_LIFECYCLE_00506.getCode().equals(u.getCardLifeCycle())).collect(Collectors.toList());
         }
         return debitCardBOList;
     }
 
 
     /**
-     *  卡片集合中循环查询 合约信息，in（合约编号）（合约表的主键）
+     * 卡片集合中循环查询 合约信息，in（合约编号）（合约表的主键）
+     *
      * @param list
      * @return
      */
-    private List<DebitCardContractBO>  pageCycleQueryContractBO(List<String> list){
+    private List<DebitCardContractBO> pageCycleQueryContractBO(List<String> list) {
 
         Integer total = list.size();
         Integer size = 1;
@@ -100,6 +100,30 @@ public class QueryPersonalAccountRelDBCardInfoIBBManager {
             resultList.addAll(orderList);
         }
         return resultList;
+    }
+
+    private QueryPersonalAccountRelCardResponseVO returnResponse(List<PersonalAccountRelDebitCardVO> mapList, QueryPersonalAccountRelDBCardRequestVO requestVO) {
+        QueryPersonalAccountRelCardResponseVO responseVO = new QueryPersonalAccountRelCardResponseVO();
+        responseVO.setList(mapList);
+        int pageNo = 1;
+        if (!StringUtils.isBlank(requestVO.getPageNo())) {
+            pageNo = Integer.parseInt(requestVO.getPageNo());
+        }
+        int pageSize = 10;
+        if (!StringUtils.isBlank(requestVO.getPageNo())) {
+            pageSize = Integer.parseInt(requestVO.getPageSize());
+        }
+        responseVO.setPageNo(pageNo);
+        responseVO.setPageSize(pageSize);
+
+        int totalRecords = 0;
+        if (!CollectionUtils.isEmpty(mapList)) {
+            totalRecords = mapList.size();
+        }
+        responseVO.setTotalRecords(totalRecords);
+        int totalPages = totalRecords % pageSize == 0 ? totalRecords / pageSize : totalRecords / pageSize + 1;
+        responseVO.setTotalPages(totalPages);
+        return responseVO;
     }
 
 }

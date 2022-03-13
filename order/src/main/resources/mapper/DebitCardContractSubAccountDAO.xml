@@ -5,11 +5,12 @@
         <!--        <id column="id" property="id" jdbcType="INTEGER"/>-->
         <result column="dbcrd_ar_refno" property="dbcrdArRefno" jdbcType="VARCHAR"/>
         <result column="deposit_num" property="depositNum" jdbcType="VARCHAR"/>
-        <result column="tongzi" property="tongZi" jdbcType="VARCHAR"/>
+        <result column="one_household" property="oneHousehold" jdbcType="VARCHAR"/>
+        <result column="current_identification" property="currentIdentification" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        dbcrd_ar_refno,deposit_num,tongzi
+        dbcrd_ar_refno,deposit_num,one_household,current_identification
     </sql>
 
 
@@ -20,7 +21,7 @@
         where deposit_num = #{depositNum}
     </select>
 
-    <select id="selectListByPage" resultType="com.example.entity.DebitCardContractSubAccountBO">
+    <select id="selectListByPage" resultMap="BaseResultMap">
         select <include refid="Base_Column_List"/>
         from t_debit_card_contract_sub_account
         where deposit_num = #{depositNum}
