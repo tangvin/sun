@@ -25,7 +25,7 @@ public class QueryPersonalAccountRelDBCardInfoServiceImpl implements QueryPerson
     public QueryPersonalAccountRelCardResponseVO queryPersonalAccountRelDBCardInfo(QueryPersonalAccountRelDBCardRequestVO requestVO) throws Exception{
 
         //1-前置查询
-        preIBBManager.preQuery(requestVO);
+        preIBBManager.preQueryAccountRelInfo(requestVO);
 
         //2-数据组装
         QueryPersonalAccountRelCardResponseVO responseVO =

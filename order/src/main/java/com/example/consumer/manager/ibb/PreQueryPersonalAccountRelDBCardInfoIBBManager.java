@@ -36,7 +36,7 @@ public class PreQueryPersonalAccountRelDBCardInfoIBBManager {
     DebitCardLifeCycleDAO debitCardLifeCycleDAO;
 
 
-    public QueryPersonalAccountRelDBCardRequestVO preQuery(QueryPersonalAccountRelDBCardRequestVO requestVO) throws Exception {
+    public QueryPersonalAccountRelDBCardRequestVO preQueryAccountRelInfo(QueryPersonalAccountRelDBCardRequestVO requestVO) throws Exception {
         String depositNum = requestVO.getDepositNum();
         //分户信息存在一定会有对应的卡片和合约信息
         List<DebitCardContractSubAccountBO> subAccountBOList = debitCardContractSubAccountDAO.selectListByPage(depositNum,10,1);
