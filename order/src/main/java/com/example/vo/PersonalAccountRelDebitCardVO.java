@@ -7,6 +7,8 @@ public class PersonalAccountRelDebitCardVO {
 
     //单位持卡人编号 -合约表
     private String companyHoldNo;
+    //单位持卡人名称 -客户组件
+    private String companyHoldName;
     //合约编号-分户表
     private String dbcrdArRefno;
     //领卡日期-生命周期表
